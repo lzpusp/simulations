@@ -1,0 +1,50 @@
+name: Audioebook
+options:
+  bundleIdPrefix: com.leonardo
+targets:
+  Audioebook:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources: [Audioebook]
+    dependencies:
+      - package: ZIPFoundation
+    info:
+      path: Audioebook/Info.plist
+      properties:
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UIDeviceFamily: [1, 2] # iPhone, iPad
+        UTExportedTypeDeclarations:
+          - UTTypeConformsTo: [public.data, public.content]
+            UTTypeDescription: "EPUB Document"
+            UTTypeIdentifier: org.idpf.epub-container
+            UTTypeTagSpecification:
+              public.filename-extension: [epub]
+              public.mime-type: [application/epub+zip]
+          - UTTypeConformsTo: [public.audio]
+            UTTypeDescription: "M4B Audio Book"
+            UTTypeIdentifier: com.apple.m4b-audio
+            UTTypeTagSpecification:
+              public.filename-extension: [m4b]
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: "EPUB Document"
+            LSHandlerRank: Owner
+            LSItemContentTypes: [org.idpf.epub-container]
+          - CFBundleTypeName: "M4B Audio Book"
+            LSHandlerRank: Owner
+            LSItemContentTypes: [com.apple.m4b-audio]
+          - CFBundleTypeName: "ZIP Archive"
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [public.zip-archive]
+          - CFBundleTypeName: "Audio"
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [public.audio]
+        LSSupportsOpeningDocumentsInPlace: true
+        UIFileSharingEnabled: true
+
+packages:
+  ZIPFoundation:
+    url: https://github.com/weichsel/ZIPFoundation.git
+    from: 0.9.19
